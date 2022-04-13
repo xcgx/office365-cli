@@ -12,16 +12,17 @@ accs = np.array(pd.read_table("./acc.txt", dtype=str, sep=':', usecols=(0, 1), e
 
 def run():
     if test_m365() == 'true':
-        print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 开始运行')
+        print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 运行中')
         for acc in accs:
             try:
+                print(acc[0] + ':' + acc[1] + '运行中')
                 if get_status(acc) == '密码正确':
-                    good = acc
+                    good = acc[0] + ':' + acc[1]
                     with open('./good.txt', 'a', encoding='utf-8') as fa:
                         fa.write(good)
                         fa.write('\n')
                 elif get_status(acc) == '需要添加二验':
-                    manual = acc
+                    manual = acc[0] + ':' + acc[1]
                     with open('./manual.txt', 'a', encoding='utf-8') as fa:
                         fa.write(manual)
                         fa.write('\n')
@@ -54,6 +55,8 @@ def get_status(acc):
         return '被暴力破解，自动ban'
     elif '90019' in str(status):
         return '账号错误'
+    elif '50076' in str(status):
+        return '需要二验'
     elif '50079' in str(status):
         return '需要添加二验'
     else:
