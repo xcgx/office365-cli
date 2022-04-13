@@ -8,20 +8,25 @@ import pandas as pd
 
 ######  acc  part
 accs = np.array(pd.read_table("./acc.txt", dtype=str, sep=':', usecols=(0, 1), encoding='utf-8', skip_blank_lines=True, header=None))
-
+count = 0
 
 def run():
     if test_m365() == 'true':
         print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 开始运行')
         for acc in accs:
-            get_status(acc)
+            try:
+                get_status(acc, count)
+            except Exception as e:
+                print('第' + count + '个登陆失败')
     else:
         print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 运行结束')
 
 
-def get_status(acc):
+def get_status(acc, count):
+    count += count
     shell_content = 'm365 login  --authType password --userName ' + acc[0] + ' --password ' + acc[1]
     status = subprocess.check_output(shell_content, shell=True)
+    print('第' + count + '个运行中')
     print(status)
 
 
