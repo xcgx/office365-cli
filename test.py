@@ -5,6 +5,7 @@ import subprocess
 import datetime
 import numpy as np
 import pandas as pd
+import threading
 
 ######  acc  part
 accs = np.array(pd.read_table("./acc.txt", dtype=str, sep=':', usecols=(0, 1), encoding='utf-8', skip_blank_lines=True, header=None))
@@ -136,4 +137,7 @@ def test_m365():
         print('未知错误，请尝试手动安装m365')
         return 'false'
 
-run()
+try:
+    threading.Thread(target=run, args=()).start()
+except Exception as error:
+    print("retry")
