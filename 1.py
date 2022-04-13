@@ -3,8 +3,6 @@ import os
 import platform
 import subprocess
 import datetime
-import numpy as np
-import pandas as pd
 
 
 
