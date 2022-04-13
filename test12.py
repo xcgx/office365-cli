@@ -15,8 +15,8 @@ def run():
         print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 开始运行')
         for acc in accs:
             try:
-                print(str(acc) + '\n')
-                print(get_status(acc))
+                print(acc[0] + ':' + acc[1])
+                print(get_status(acc) + '\n')
             except Exception as e:
                 pass
     else:
@@ -42,6 +42,7 @@ def get_status(acc):
     elif '53003' in str(status):
         return '被暴力破解，自动ban'
     else:
+        print(status)
         return '未知错误'
 
 
