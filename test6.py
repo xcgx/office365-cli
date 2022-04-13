@@ -32,7 +32,7 @@ def test_npm():
         npm_ver = '0'
 
     if eval(npm_ver[0:1]) >= 6:
-        print('当前npm版本为' + npm_ver + '将继续运行')
+        print('当前npm版本为' + str(npm_ver) + '将继续运行')
         return 'true'
     else:
         print('npm未安装或版本过低，尝试自动安装...')
