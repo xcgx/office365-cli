@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 
 ######  acc  part
-accs = np.array(pd.read_table("./acc.txt", dtype=str, sep=':', usecols=(0, 1), encoding='utf-8', skip_blank_lines=True, header=None))
+accs = np.array(pd.read_table("/acc.txt", dtype=str, sep=':', usecols=(0, 1), encoding='utf-8', skip_blank_lines=True, header=None))
 
 
 def run():
@@ -73,10 +73,10 @@ def test_m365():
             m365_ver = subprocess.check_output('m365 version', shell=True)
         except Exception as e:
             m365_ver = '0'
-        if m365_ver is '0':
+        if m365_ver == '0':
             print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 开始安装m365')
             os.system('npm install -g @pnp/cli-microsoft365')
-        elif m365_ver[1:2] is 'v':
+        elif m365_ver[1:2] == 'v':
             print('m365环境正常')
             return 'true'
         else:
@@ -89,7 +89,7 @@ def test_m365():
         m365_ver = subprocess.check_output('m365 version', shell=True)
     except Exception as e:
         m365_ver = '0'
-    if m365_ver[1:2] is 'v':
+    if m365_ver[1:2] == 'v':
         print('m365环境正常')
         return 'true'
     else:
