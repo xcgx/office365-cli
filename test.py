@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 
 ######  acc  part
-accs = np.array(pd.read_table("/acc.txt", dtype=str, sep=':', usecols=(0, 1), encoding='utf-8', skip_blank_lines=True, header=None))
+accs = np.array(pd.read_table("./acc.txt", dtype=str, sep=':', usecols=(0, 1), encoding='utf-8', skip_blank_lines=True, header=None))
 
 
 def run():
