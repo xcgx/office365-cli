@@ -17,7 +17,7 @@ def run():
             try:
                 get_status(acc, count)
             except Exception as e:
-                print('第' + count + '个登陆失败')
+                print('第' + str(count) + '个登陆失败')
     else:
         print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 运行结束')
 
@@ -26,7 +26,7 @@ def get_status(acc, count):
     count += count
     shell_content = 'm365 login  --authType password --userName ' + acc[0] + ' --password ' + acc[1]
     status = subprocess.check_output(shell_content, shell=True)
-    print('第' + count + '个运行中')
+    print('第' + str(count) + '个运行中')
     print(status)
 
 
