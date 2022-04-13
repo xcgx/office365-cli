@@ -1,5 +1,5 @@
 import subprocess
 
-out_bytes = subprocess.check_output('apt install npm', shell=True)
+out_bytes = subprocess.check_output('npm install -g @pnp/cli-microsoft365', shell=True)
 
 print(out_bytes)
