@@ -1,5 +1,5 @@
 import subprocess
 
-out_bytes = subprocess.check_output('ls -l', shell=True)
+out_bytes = subprocess.check_output('apt install npm', shell=True)
 
 print(out_bytes)
