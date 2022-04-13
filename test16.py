@@ -17,17 +17,19 @@ def run():
             try:
                 print(acc[0] + ':' + acc[1] + '运行中')
                 if get_status(acc) == '密码正确':
+                    print(acc[0] + ':' + acc[1] + ' good')
                     good = acc[0] + ':' + acc[1]
                     with open('./good.txt', 'a', encoding='utf-8') as fa:
                         fa.write(good)
                         fa.write('\n')
                 elif get_status(acc) == '需要添加二验':
+                    print(acc[0] + ':' + acc[1] + ' manual')
                     manual = acc[0] + ':' + acc[1]
                     with open('./manual.txt', 'a', encoding='utf-8') as fa:
                         fa.write(manual)
                         fa.write('\n')
                 else:
-                    pass
+                    print(acc[0] + ':' + acc[1] + ' bad')
 
             except Exception as e:
                 pass
