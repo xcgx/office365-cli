@@ -12,10 +12,9 @@ accs = np.array(pd.read_table("./acc.txt", dtype=str, sep=':', usecols=(0, 1), e
 
 def run():
     if test_m365() == 'true':
-        print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 运行中')
+        print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 开始运行')
         for acc in accs:
             try:
-                print(acc[0] + ':' + acc[1] + '运行中')
                 if get_status(acc) == '密码正确':
                     print(acc[0] + ':' + acc[1] + ' good')
                     good = acc[0] + ':' + acc[1]
@@ -30,9 +29,9 @@ def run():
                         fa.write('\n')
                 else:
                     print(acc[0] + ':' + acc[1] + ' bad')
-
             except Exception as e:
                 pass
+        print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 完成运行')
     else:
         print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 运行结束')
 
