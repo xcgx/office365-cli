@@ -11,27 +11,31 @@ import threading
 accs = np.array(pd.read_table("./acc.txt", dtype=str, sep=':', usecols=(0, 1), encoding='utf-8', skip_blank_lines=True, header=None))
 
 
+sem_num = 10
+sem = threading.Semaphore(sem_num)
+
 def run():
     if test_m365() == 'true':
         print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 开始运行')
-        for acc in accs:
-            try:
-                if get_status(acc) == '密码正确':
-                    print(acc[0] + ':' + acc[1] + ' good')
-                    good = acc[0] + ':' + acc[1]
-                    with open('./good.txt', 'a', encoding='utf-8') as fa:
-                        fa.write(good)
-                        fa.write('\n')
-                elif get_status(acc) == '需要添加二验':
-                    print(acc[0] + ':' + acc[1] + ' manual')
-                    manual = acc[0] + ':' + acc[1]
-                    with open('./manual.txt', 'a', encoding='utf-8') as fa:
-                        fa.write(manual)
-                        fa.write('\n')
-                else:
-                    print(acc[0] + ':' + acc[1] + ' bad')
-            except Exception as e:
-                pass
+        with sem:
+            for acc in accs:
+                try:
+                    if get_status(acc) == '密码正确':
+                        print(acc[0] + ':' + acc[1] + ' good')
+                        good = acc[0] + ':' + acc[1]
+                        with open('./good.txt', 'a', encoding='utf-8') as fa:
+                            fa.write(good)
+                            fa.write('\n')
+                    elif get_status(acc) == '需要添加二验':
+                        print(acc[0] + ':' + acc[1] + ' manual')
+                        manual = acc[0] + ':' + acc[1]
+                        with open('./manual.txt', 'a', encoding='utf-8') as fa:
+                            fa.write(manual)
+                            fa.write('\n')
+                    else:
+                        print(acc[0] + ':' + acc[1] + ' bad')
+                except Exception as e:
+                    pass
         print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 完成运行')
     else:
         print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 运行结束')
@@ -141,3 +145,4 @@ try:
     threading.Thread(target=run, args=()).start()
 except Exception as error:
     print("retry")
+        
