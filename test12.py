@@ -25,7 +25,7 @@ def run():
 
 def get_status(acc):
     shell_content = 'm365 login  --authType password --userName ' + acc[0] + ' --password ' + acc[1]
-    status = subprocess.check_output(shell_content, shell=True)
+    status = subprocess.getoutput(shell_content)
     # print(status)
     if '65001' in str(status):
         return '密码正确'
