@@ -14,7 +14,7 @@ def run():
     if test_m365() == 'true':
         print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 开始运行')
         for acc in accs:
-            get_status()
+            get_status(acc)
     else:
         print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 运行结束')
 
