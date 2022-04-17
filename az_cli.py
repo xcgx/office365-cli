@@ -77,7 +77,7 @@ def test_azurecli():
         return 'true'
     else:
         print('azure-cli未安装，尝试自动安装...')
-        sys_ver = platform.uname()
+        sys_ver = str(platform.uname())
         if 'Debian' in sys_ver or 'Ubuntu' in sys_ver:
             os.system('curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash')
         elif 'Centos' in sys_ver or 'Redhat' in sys_ver or 'Fedora' in str(sys_ver):
