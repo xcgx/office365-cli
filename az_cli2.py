@@ -72,7 +72,7 @@ def test_azurecli():
     except Exception as e:
         az_ver = '0'
 
-    if 'core' in az_ver:
+    if 'core' in str(az_ver):
         print('azure-cli环境正常')
         return 'true'
     else:
@@ -91,7 +91,7 @@ def test_azurecli():
     except Exception as e:
         az_ver = '0'
 
-    if 'core' in az_ver:
+    if 'core' in str(az_ver):
         print('当前azure-cli环境正常，将继续运行')
         return 'true'
     else:
