@@ -38,7 +38,7 @@ def run():
 
 
 def get_status(acc):
-    shell_content = 'az login --allow-no-subscriptions ' + acc[0] + ' -p ' + acc[1]
+    shell_content = 'az login --allow-no-subscriptions -u ' + acc[0] + ' -p ' + acc[1]
     status = subprocess.getoutput(shell_content)
     # print(status)
     if 'true' in str(status):
