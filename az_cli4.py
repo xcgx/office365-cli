@@ -39,32 +39,38 @@ def run():
 
 
 def get_status(acc):
-    shell_content = 'az login --allow-no-subscriptions -u ' + acc[0] + ' -p ' + acc[1]
-    try:
-        status = subprocess.getoutput(shell_content)
-        if 'true' in str(status):
-            return '密码正确'
-        elif '50034' in str(status):
-            return '账户不存在'
-        elif '50126' in str(status):
-            return '密码错误'
-        elif '53003' in str(status):
-            return 'IP限制'
-        elif '50057' in str(status):
-            return '管理ban'
-        elif '50059' in str(status):
-            return '被删号'
-        elif '50053' in str(status):
-            return '被暴力破解，自动ban'
-        elif '90019' in str(status):
-            return '账号错误'
-        elif '50079' in str(status):
-            return '需要添加二验'
-        else:
-            print(status)
+    if '@gmail.com' in acc[0]:
+        return '不支持MSA账号'
+    else:
+        shell_content = 'az login --allow-no-subscriptions -u ' + acc[0] + ' -p ' + acc[1]
+        try:
+            status = subprocess.getoutput(shell_content)
+            if 'true' in str(status):
+                return '密码正确'
+            elif '50034' in str(status):
+                return '账户不存在'
+            elif '50126' in str(status):
+                return '密码错误'
+            elif '53003' in str(status):
+                return 'IP限制'
+            elif '50057' in str(status):
+                return '管理ban'
+            elif '50059' in str(status):
+                return '被删号'
+            elif '50053' in str(status):
+                return '被暴力破解，自动ban'
+            elif '90019' in str(status):
+                return '账号错误'
+            elif '50076' in str(status):
+                return '需要二验'
+            elif '50079' in str(status):
+                return '需要添加二验'
+            else:
+                print(status)
+                return '未知错误'
+        except Exception as e:
             return '未知错误'
-    except Exception as e:
-        return '需要二验'
+
 
 
 def test_azurecli():
