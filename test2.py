@@ -9,4 +9,4 @@ import threading
 import sys
 
 sys_ver = platform.uname()
-print(sys-ver)
+print(sys_ver)
