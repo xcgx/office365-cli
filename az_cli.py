@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import json
 import jmespath
+import time
 
 
 ######  acc  part
@@ -66,7 +67,7 @@ def admin_check(acc):
 
 
 def creat_api(acc):
-    shell_create = 'az ad app create --display-name undead_test9 --required-resource-accesses @manifest.json --only-show-errors'
+    shell_create = 'az ad app create --display-name undead --required-resource-accesses @manifest.json --only-show-errors'
     create_result = subprocess.getoutput(shell_create)
 
     appid = jmespath.search('appId', json.loads(create_result))
@@ -79,7 +80,9 @@ def creat_api(acc):
         admin_result = subprocess.getoutput(shell_admin)
         if 'Bad Request' in str(admin_result):
             print('权限授予失败，重试中...')
+            time.sleep(2)
         else:
+            print('权限授予完成')
             break
 
     apis = subprocess.getoutput(shell_credential)
