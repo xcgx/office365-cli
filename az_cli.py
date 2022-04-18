@@ -40,7 +40,7 @@ def run():
                             fa.write('\n')
                     else:
                         pass
-                elif acc_status == '需要添加二验':
+                elif acc_status == '需要添加二验' or acc_status == '密码过期':
                     print(acc[0] + ':' + acc[1] + ' manual')
                     manual = acc[0] + ':' + acc[1]
                     with open('./manual.txt', 'a', encoding='utf-8') as fa:
@@ -75,19 +75,23 @@ def creat_api(acc):
     shell_admin = 'az ad app permission admin-consent --id ' + appid
     shell_credential = 'az ad app credential reset --only-show-errors --end-date 9999-12-31 --id ' + appid
 
-    admin_status = 'false'
-    while admin_status == 'false':
+    admin_try = 0
+    while admin_try < 5:
         admin_result = subprocess.getoutput(shell_admin)
         if 'Bad Request' in str(admin_result):
             print('权限授予失败，重试中...')
+            admin_try += 1
             time.sleep(2)
         else:
             print('权限授予完成')
+            apis = subprocess.getoutput(shell_credential)
+            print(str(apis))
             break
-
-    apis = subprocess.getoutput(shell_credential)
-    print(str(apis))
+    else:
+        print('可能是非全局管理或超时')
+        apis = 'error'
     return str(apis)
+
 
 
 def get_status(acc):
@@ -113,6 +117,10 @@ def get_status(acc):
                 return '被暴力破解，自动ban'
             elif '90019' in str(status):
                 return '账号错误'
+            elif '50055' in str(status):
+                return '密码过期'
+            elif '53004' in str(status):
+                return '异常活动，且二验'
             elif '50076' in str(status):
                 return '需要二验'
             elif '50079' in str(status):
