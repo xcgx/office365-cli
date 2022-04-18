@@ -66,7 +66,7 @@ def admin_check(acc):
 
 
 def creat_api(acc):
-    shell_create = 'az ad app create --display-name undead0 --end-date 9999-12-31 --required-resource-accesses @manifest.json --only-show-errors'
+    shell_create = 'az ad app create --display-name undead1 --end-date 9999-12-31 --required-resource-accesses @manifest.json --only-show-errors'
     create_result = subprocess.getoutput(shell_create)
 
     appid = jmespath.search('appId', json.loads(create_result))
