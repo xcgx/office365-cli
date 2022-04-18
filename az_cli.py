@@ -66,14 +66,16 @@ def admin_check(acc):
 
 
 def creat_api(acc):
-    shell_create = 'az ad app create --display-name undead_test --end-date 9999-12-31 --required-resource-accesses @manifest.json --only-show-errors'
+    shell_create = 'az ad app create --display-name undead --required-resource-accesses @manifest.json --only-show-errors'
     create_result = subprocess.getoutput(shell_create)
 
     appid = jmespath.search('appId', json.loads(create_result))
 
-    shell_admin = 'az ad app permission admin-consent --only-show-errors --id ' + appid
-    shell_credential = 'az ad app credential reset --only-show-errors --id ' + appid
-    admin_status = subprocess.getoutput(shell_admin)
+    shell_admin1 = 'az ad app permission admin-consent --only-show-errors --id ' + appid
+    shell_admin2 = 'az ad app permission grant --expires never --id 00000003-0000-0000-c000-000000000000 --api ' + appid
+    shell_credential = 'az ad app credential reset --only-show-errors --end-date 9999-12-31 --id ' + appid
+    subprocess.getoutput(shell_admin1)
+    subprocess.getoutput(shell_admin2)
     apis = subprocess.getoutput(shell_credential)
     print(str(apis))
     return str(apis)
