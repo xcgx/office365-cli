@@ -26,6 +26,7 @@ def run():
                         fa.write(good)
                         fa.write('\n')
                     if admin_check(acc) == 'admin':
+                        print(acc[0] + ':' + acc[1] + ' admin')
                         admin = acc[0] + ':' + acc[1]
                         with open('./admin.txt', 'a', encoding='utf-8') as fa:
                             fa.write(admin)
