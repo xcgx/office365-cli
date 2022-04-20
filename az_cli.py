@@ -98,7 +98,7 @@ def get_status(acc):
     if '@gmail.com' in acc[0]:
         return '不支持MSA账号'
     else:
-        shell_content = 'az login --allow-no-subscriptions -u ' + acc[0] + ' -p ' + acc[1]
+        shell_content = 'az login --allow-no-subscriptions -u ' + acc[0] + ' -p=' + acc[1]
         try:
             status = subprocess.getoutput(shell_content)
             if 'true' in str(status):
