@@ -1,49 +1,39 @@
 [
     {
-      "additionalProperties": null,
       "resourceAccess": [
         {
-          "additionalProperties": null,
           "id": "e1fe6dd8-ba31-4d61-89e7-88639da4683d",
           "type": "Scope"
         },
         {
-          "additionalProperties": null,
           "id": "9e3f62cf-ca93-4989-b6ce-bf83c28f9fe8",
           "type": "Role"
         },
         {
-          "additionalProperties": null,
           "id": "656f6061-f9fe-4807-9708-6a2e0934df76",
           "type": "Role"
         },
         {
-          "additionalProperties": null,
           "id": "741f803b-c850-494e-b5df-cde7c675a1ca",
           "type": "Role"
         },
         {
-          "additionalProperties": null,
           "id": "18a4783c-866b-4cc7-a460-3d5e5662c884",
           "type": "Role"
         },
         {
-          "additionalProperties": null,
           "id": "230c1aed-a721-4c5d-9cb4-a90514e508ef",
           "type": "Role"
         },
         {
-          "additionalProperties": null,
           "id": "1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9",
           "type": "Role"
         },
         {
-          "additionalProperties": null,
           "id": "19dbc75e-c2e2-444c-a770-ec69d8559fc7",
           "type": "Role"
         },
         {
-          "additionalProperties": null,
           "id": "c529cfca-c91b-489c-af2b-d92990b66ce6",
           "type": "Role"
         }
