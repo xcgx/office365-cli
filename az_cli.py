@@ -33,6 +33,7 @@ def run():
                             fa.write(admin)
                             fa.write('\n')
                         api = creat_api(acc)
+                        print('尝试创建api')
                         with open('./api.txt', 'a', encoding='utf-8') as fa:
                             fa.write(str(acc))
                             fa.write('\n')
